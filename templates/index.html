@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block content %}
+	<h2 class="badge-success text-center text-capitalize border-dark text-white">
+	Django Project Creator Helper</h2>
+	<hr>
+	<div class="row">
+		<!-- Showing left side project in the particular directory -->
+		<div class="col-md-4">
+			<!-- directory structure -->
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover table-striped">
+					<tr>
+						<th class="text-center bg-primary">Directory Structure</th>
+					</tr>
+					{% for dir in dir_lists %}
+						<tr>
+							<td>
+								{{dir}}
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<!-- Requirement form -->
+			
+			<form action="/action" method="post" role="form">
+				{% csrf_token %}
+				<div class="table-responsive">
+					<table class="table">
+						<tbody>
+							{% for data in form %}
+								<tr>
+									<td>
+										{{data}}
+									</td>
+								</tr>
+							{% endfor %}
+							<tr>
+								<td>
+									<div class="bg-warning">
+										<strong>Warning!</strong> The following files will be included.
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<!-- work is incomplete -->
+								<td>
+									1) base.html, 2) index.html, <br>
+									3) app.urls.py, 4) templates(folder)
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<button class="btn btn-primary">Create Project</button>
+								</td>
+							</tr>
+						</tbody>
+						
+					</table>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-3">
+			<!-- Server Status -->
+			<h6 class="bg-warning text-center text-capitalize">Server Information</h6>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+							<th>
+								Server Name
+							</th>
+							<th>
+								Status
+							</th>
+						</tr>
+						<tr>
+							<td>
+								Default Server
+							</td>
+							<td>
+								{% if request.session.is_server_running %}
+									<div class="rounded-circle bg-success text-center text-white">
+									Running
+									</div>
+								{% else %}
+									<div class="rounded-circle bg-danger text-center text-white">
+									Stopped
+									</div>
+								{% endif %}
+								
+							</td>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<!-- Server run button -->
+			{% if request.session.is_project_dir %}
+				<a href="/run_server" class="btn btn-secondary btn-md text-white">Run Server</a>
+				<!-- {{request.session.clear}} -->
+			{% endif %}
+			
+		</div>
+		<div class="col-md-5">
+			<!-- msg -->
+			{% if request.session.is_success %}
+				<div class="alert alert-success">
+					<strong>GREAT! </strong> Project creation successs
+				</div>
+				{{request.session.clear}}
+			{% endif %}
+			
+		</div>
+		<div class="col-md-3">
+			<!-- other -->
+			
+		</div>
+	</div>
+{% endblock %}
